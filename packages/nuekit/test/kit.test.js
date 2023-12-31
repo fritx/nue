@@ -230,7 +230,7 @@ test('bundle', async() => {
   // bun bundle
   const opts = { path: `./${root}/b.ts`, outdir: root, bundle: true }
   await buildJS(opts)
-  expect(await read('b.js')).toInclude('var foo = 30')
+  expect(await read('b.js')).toInclude('var foo = 33')
 
   // esbuild bundl3
   await buildJS({ ...opts, esbuild: true })
