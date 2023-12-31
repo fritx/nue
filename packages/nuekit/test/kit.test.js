@@ -224,17 +224,17 @@ test('index.md', async() => {
 
 
 test('bundle', async() => {
-  await write('a.ts', 'export const foo = 30')
+  await write('a.ts', 'export const foo = 22')
   await write('b.ts', 'import { foo } from "./a.js"; const bar = 10 + foo')
 
   // bun bundle
   const opts = { path: `./${root}/b.ts`, outdir: root, bundle: true }
   await buildJS(opts)
-  expect(await read('b.js')).toInclude('var foo = 30')
+  expect(await read('b.js')).toInclude('var foo = 22')
 
   // esbuild bundl3
   await buildJS({ ...opts, esbuild: true })
-  expect(await read('b.js')).toInclude('var foo = 30')
+  expect(await read('b.js')).toInclude('var foo = 22')
 })
 
 test('syntax errors', async() => {
