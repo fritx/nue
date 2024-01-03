@@ -183,7 +183,7 @@ test('inline CSS', async () => {
 
   expect(data.inline_css[0]).toEqual({ path: "/inline/style.css", content: "body { margin: 0 }"})
   const html = await kit.renderPage('inline/index.md', data)
-  expect(html).toInclude('<style href="/inline/style.css">body { margin: 0 }</style>')
+  expect(html).toContain('<style href="/inline/style.css">body { margin: 0 }</style>')
 })
 
 
@@ -207,8 +207,8 @@ test('index.html', async() => {
   await kit.gen('index.html')
   const html = await readDist(kit.dist, 'index.html')
 
-  expect(html).toInclude('hotreload.js')
-  expect(html).toInclude('island="test"')
+  expect(html).toContain('hotreload.js')
+  expect(html).toContain('island="test"')
 })
 
 test('index.md', async() => {
@@ -217,9 +217,9 @@ test('index.md', async() => {
   await kit.gen('index.md')
   const html = await readDist(kit.dist, 'index.html')
 
-  expect(html).toInclude('hotreload.js')
-  expect(html).toInclude('<title>Hey</title>')
-  expect(html).toInclude('<h1>Hey</h1>')
+  expect(html).toContain('hotreload.js')
+  expect(html).toContain('<title>Hey</title>')
+  expect(html).toContain('<h1>Hey</h1>')
 })
 
 
@@ -230,11 +230,11 @@ test('bundle', async() => {
   // bun bundle
   const opts = { path: `./${root}/b.ts`, outdir: root, bundle: true }
   await buildJS(opts)
-  expect(await read('b.js')).toInclude('var foo = 30')
+  expect(await read('b.js')).toContain('var foo = 30')
 
   // esbuild bundl3
   await buildJS({ ...opts, esbuild: true })
-  expect(await read('b.js')).toInclude('var foo = 30')
+  expect(await read('b.js')).toContain('var foo = 30')
 })
 
 test('syntax errors', async() => {

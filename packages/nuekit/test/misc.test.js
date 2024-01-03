@@ -16,9 +16,9 @@ test('CLI args', () => {
 
 test('head', () => {
   const head = renderHead({ charset: 'foo', title: 'Hey', preload_image: 'hey.png' })
-  expect(head).toInclude('meta charset="foo"')
-  expect(head).toInclude('<title>Hey</title>')
-  expect(head).toInclude('<link rel="preload" as="image" href="hey.png">')
+  expect(head).toContain('meta charset="foo"')
+  expect(head).toContain('<title>Hey</title>')
+  expect(head).toContain('<link rel="preload" as="image" href="hey.png">')
 })
 
 
