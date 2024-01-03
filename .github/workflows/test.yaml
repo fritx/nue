@@ -12,14 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
-        if: !startsWith(runner.os, 'Windows')
+        if: ${{ runner.os != 'Windows' }}
       - run: |
           bun install
           bun install --no-save esbuild@^0.19.11
           bun test --coverage
-        if: !startsWith(runner.os, 'Windows')
+        if: ${{ runner.os != 'Windows' }}
       - run: |
           npm i
           npm i -g jest
           jest
-        if: startsWith(runner.os, 'Windows')
+        if: ${{ runner.os == 'Windows' }}
