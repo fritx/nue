@@ -11,6 +11,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
+
+      # setup-bun currently not working with Windows
       - uses: oven-sh/setup-bun@v1
         if: ${{ runner.os != 'Windows' }}
       - run: |
@@ -18,8 +20,12 @@ jobs:
           bun install --no-save esbuild@^0.19.11
           bun test --coverage
         if: ${{ runner.os != 'Windows' }}
+
+      # Windows only
       - run: |
+          node -v && npm -v
           npm i
           npm i -g jest
-          jest
+          (cd packages/nuejs && jest)
+          (cd packages/nuekit && jest)
         if: ${{ runner.os == 'Windows' }}
