@@ -12,7 +12,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
+        if: runner.os != 'windows-2022'
       - run: |
           bun install
           bun install --no-save esbuild@^0.19.11
           bun test --coverage
+        if: runner.os != 'windows-2022'
+      - run: |
+          npm i
+          npm i -g jest
+          jest
+        if: runner.os == 'windows-2022'
