@@ -28,6 +28,6 @@ jobs:
           npm i
           npm i --no-save jest esbuild@^0.19.11
           # https://jestjs.io/docs/ecmascript-modules
-          cd packages/nuejs && node --experimental-vm-modules ../../node_modules/jest/bin/jest --runInBand
-          cd ../nuekit && node --experimental-vm-modules ../../node_modules/jest/bin/jest --runInBand
+          cd packages/nuejs && node --experimental-vm-modules ../../node_modules/jest/bin/jest -- --runInBand
+          cd ../nuekit && node --experimental-vm-modules ../../node_modules/jest/bin/jest -- --runInBand
         if: ${{ runner.os == 'Windows' }}
