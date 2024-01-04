@@ -7,6 +7,11 @@ import { promises as fs } from 'node:fs'
 import { join, parse } from 'node:path'
 import { init } from '../src/init.js'
 
+import { toMatchOSPath } from './tomatchospath.js'
+
+expect.extend({ toMatchOSPath })
+
+
 // temporary directory
 const root = '_test'
 
@@ -120,7 +125,7 @@ test('content collection', async () => {
   expect(coll.length).toBe(2)
   expect(coll[0].url).toBe('/blog/first.html')
   expect(coll[1].title).toBe('Second')
-  expect(coll[1].dir).toBe('blog/nested')
+  expect(coll[1].dir).toMatchOSPath('blog/nested')
   expect(coll[1].slug).toBe('hey.html')
 })
 
@@ -159,8 +164,8 @@ test('getRequestPaths', async () => {
   // SPA root
   const path = 'admin/index.html'
   await write(path)
-  expect(await site.getRequestPaths('/admin/')).toMatchObject({ path })
-  expect(await site.getRequestPaths('/admin/customers')).toMatchObject({ path })
+  expect((await site.getRequestPaths('/admin/')).path).toMatchOSPath(path)
+  expect((await site.getRequestPaths('/admin/customers')).path).toMatchOSPath(path)
   expect(await site.getRequestPaths('/admin/readme.html')).toMatchObject({ path: '404.html' })
 })
 
@@ -252,6 +257,7 @@ test('syntax errors', async() => {
   try {
     await buildJS({ ...opts, esbuild: true })
   } catch (e) {
+    console.info('with esbuild', e)
     expect(e.lineText).toBe(code)
   }
 
