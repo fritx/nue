@@ -1,6 +1,8 @@
 
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { normalize as urlNormalize } from 'node:path/posix'
+
+import { existsSync } from 'node:fs'
 
 export async function getBuilder(is_esbuild) {
   try {
@@ -16,7 +18,7 @@ export async function buildJS(args) {
   //const path = urlNormalize(args.path)
   //const outdir = urlNormalize(args.outdir)
   
-  console.info('buildJS path', path)
+  console.info('buildJS path', path, resolve(path), existsSync(path), process.cwd())
 
   const is_esbuild = args.esbuild || !process.isBun
   const builder = await getBuilder(is_esbuild)
@@ -24,7 +26,7 @@ export async function buildJS(args) {
 
   const opts = {
     external: bundle ? ['../@nue/*', '/@nue/*'] : is_esbuild ? undefined : ['*'],
-    entryPoints: [ path ],
+    entryPoints: [ resolve(path) ],
     format: 'esm',
     outdir,
     bundle,
