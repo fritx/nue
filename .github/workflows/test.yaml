@@ -28,7 +28,10 @@ jobs:
           npm i
           npm i --no-save jest esbuild@^0.19.11
           # https://jestjs.io/docs/ecmascript-modules
-          cd packages/nuekit && node --experimental-vm-modules ../../node_modules/jest/bin/jest -i
+          cd packages/nuekit
+          Get-ChildItem -Recurse -Filter "*.test.js" | ForEach-Object {node --experimental-vm-modules ../../node_modules/jest/bin/jest $_.FullName}
+          #for file in $(find . -name "*.test.js"); do node --experimental-vm-modules ../../node_modules/jest/bin/jest $file; done
+          #cd packages/nuekit && node --experimental-vm-modules ../../node_modules/jest/bin/jest -i
           #cd packages/nuejs && node --experimental-vm-modules ../../node_modules/jest/bin/jest -i
           #cd ../nuekit && node --experimental-vm-modules ../../node_modules/jest/bin/jest -i
         if: ${{ runner.os == 'Windows' }}
