@@ -1,5 +1,6 @@
 
-import { join, normalize } from 'node:path'
+import { join } from 'node:path'
+import { normalize as urlNormalize } from 'node:path/posix'
 
 export async function getBuilder(is_esbuild) {
   try {
@@ -12,8 +13,8 @@ export async function getBuilder(is_esbuild) {
 export async function buildJS(args) {
 
   const { toname, minify, bundle } = args
-  const path = normalize(args.path)
-  const outdir = normalize(args.outdir)
+  const path = urlNormalize(args.path)
+  const outdir = urlNormalize(args.outdir)
 
   console.info('buildJS args', args, { path, outdir })
 
