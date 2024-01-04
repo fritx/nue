@@ -12,11 +12,11 @@ export async function getBuilder(is_esbuild) {
 
 export async function buildJS(args) {
 
-  const { toname, minify, bundle } = args
-  const path = urlNormalize(args.path)
-  const outdir = urlNormalize(args.outdir)
-
-  console.info('buildJS args', args, { path, outdir })
+  const { path, outdir, toname, minify, bundle } = args
+  //const path = urlNormalize(args.path)
+  //const outdir = urlNormalize(args.outdir)
+  
+  console.info('buildJS path', path)
 
   const is_esbuild = args.esbuild || !process.isBun
   const builder = await getBuilder(is_esbuild)
