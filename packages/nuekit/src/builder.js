@@ -26,7 +26,7 @@ export async function buildJS(args) {
 
   const opts = {
     external: bundle ? ['../@nue/*', '/@nue/*'] : is_esbuild ? undefined : ['*'],
-    entryPoints: [ resolve(path) ],
+    entryPoints: [ path ],
     format: 'esm',
     outdir,
     bundle,
