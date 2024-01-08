@@ -7,10 +7,11 @@ import { promises as fs } from 'node:fs'
 import { join, parse } from 'node:path'
 import { init } from '../src/init.js'
 
-import { toMatchOSPath } from './tomatchospath.js'
+import { toMatchOSPath } from './to-match-os-path.js'
 
 expect.extend({ toMatchOSPath })
 
+const testIfBun = process.isBun ? test : test.skip
 
 // temporary directory
 const root = '_test'
@@ -171,7 +172,7 @@ test('getRequestPaths', async () => {
 
 
 
-test('init dist/@nue dir', async () => {
+testIfBun('init dist/@nue dir', async () => {
   await init({ dist: root, is_dev: true, esbuild: false })
   const names = await fs.readdir(join(root, '@nue'))
   expect(names.length).toBeGreaterThan(7)

@@ -5,7 +5,7 @@ import { match } from '../src/browser/app-router.js'
 import { renderHead } from '../src/layout.js'
 import { getArgs } from '../src/cli.js'
 
-import { toMatchOSPath } from './tomatchospath.js'
+import { toMatchOSPath } from './to-match-os-path.js'
 
 expect.extend({ toMatchOSPath })
 

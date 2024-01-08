@@ -2,6 +2,7 @@
 
 import { log, colors } from './util.js'
 import { normalize } from 'node:path'
+import esMain from 'es-main'
 
 // [-npe] --> [-n, -p, -e]
 export function expandArgs(args) {
@@ -105,6 +106,9 @@ async function runCommand(args) {
   else if (cmd == 'stats') await nue.stats()
 }
 
+// Only run main when called as real CLI
+if (esMain(import.meta)) {
+
 const args = getArgs(process.argv)
 
 // help
@@ -126,4 +130,6 @@ if (args.help) {
   } catch (e) {
     console.info(e)
   }
+}
+
 }
