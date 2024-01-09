@@ -22,7 +22,8 @@ jobs:
       - run: |
           # WARNING: No stability is guaranteed on the experimental Windows builds
           powershell -c "irm bun.sh/install.ps1|iex"
-          $env:PATH = "C:\Users\runneradmin\.bun\bin\" + ";" + $env:PATH
+          # permanently add to the PATH from PowerShell
+          [System.Environment]::SetEnvironmentVariable("PATH", $env:PATH + ";C:\Users\runneradmin\.bun\bin\", [System.EnvironmentVariableTarget]::Machine)
         if: ${{ matrix.env == 'bun' && runner.os == 'Windows' }}
       - run: |
           bun -v
