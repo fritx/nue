@@ -18,13 +18,13 @@ jobs:
       # setup-bun currently not working with Windows
       # For MacOS and Linux only
       - uses: oven-sh/setup-bun@v1
-        if: ${{ matrix.env == 'bun' && runner.os != 'Windows' }}
+        if: ${{ matrix.env == 'bun' }}
       - run: |
           bun -v
           bun install
           bun install --no-save esbuild@^0.19.11
           bun test --coverage
-        if: ${{ matrix.env == 'bun' && runner.os != 'Windows' }}
+        if: ${{ matrix.env == 'bun' }}
 
       - run: |
           node -v && npm -v
