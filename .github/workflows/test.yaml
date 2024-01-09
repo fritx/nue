@@ -20,16 +20,21 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         if: ${{ matrix.env == 'bun' && runner.os != 'Windows' }}
       - run: |
-          # WARNING: No stability is guaranteed on the experimental Windows builds
-          powershell -c "irm bun.sh/install.ps1|iex"
-          echo "C:\Users\runneradmin\.bun\bin\" >> $GITHUB_PATH
-        if: ${{ matrix.env == 'bun' && runner.os == 'Windows' }}
-      - run: |
           bun -v
           bun install
           bun install --no-save esbuild@^0.19.11
           bun test --coverage
-        if: ${{ matrix.env == 'bun' }}
+        if: ${{ matrix.env == 'bun' && runner.os != 'Windows' }}
+      - run: |
+          # WARNING: No stability is guaranteed on the experimental Windows builds
+          powershell -c "irm bun.sh/install.ps1|iex"
+          echo "C:\Users\runneradmin\.bun\bin\" >> $GITHUB_PATH
+          echo $PATH
+          C:\Users\runneradmin\.bun\bin\bun.exe -v
+          C:\Users\runneradmin\.bun\bin\bun.exe install
+          C:\Users\runneradmin\.bun\bin\bun.exe install --no-save esbuild@^0.19.11
+          C:\Users\runneradmin\.bun\bin\bun.exe test --coverage
+        if: ${{ matrix.env == 'bun' && runner.os == 'Windows' }}
 
       - run: |
           node -v && npm -v
