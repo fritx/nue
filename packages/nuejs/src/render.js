@@ -12,7 +12,7 @@ const { getInnerHTML, getOuterHTML, removeElement } = DOM
 function parseError(e) {
   const [msg, sub] = e.toString().split("'")
   const text = msg.slice(0, msg.indexOf(' ('))
-  const subexpr = sub.replaceAll('_.', '')
+  const subexpr = sub && sub.replaceAll('_.', '')
   return { subexpr, text }
 }
 
@@ -220,7 +220,8 @@ function processNode(opts) {
         DOM.appendChild(node, parseDocument(html))
       }
 
-      walkChildren(node)
+      const skip = ['style', 'script'].includes(type)
+      if (!skip) walkChildren(node)
 
       // bind
       expr = getDel(':bind', attribs) || getDel(':attr', attribs)
