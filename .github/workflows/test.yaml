@@ -1,5 +1,5 @@
 name: Test
-on: 
+on:
   push:
     branches:
       - master
@@ -27,6 +27,11 @@ jobs:
       # Testing `bun`
       - uses: oven-sh/setup-bun@v1
         if: ${{ matrix.env.tool == 'bun' }}
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('bun.lockb') }}
+        if: ${{ matrix.env.tool == 'bun' }}
       - run: |
           bun -v
           bun install
@@ -35,6 +40,11 @@ jobs:
         if: ${{ matrix.env.tool == 'bun' }}
 
       # Testing `node+jest`
+      - uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
+        if: ${{ matrix.env.tool == 'node+jest' }}
       - run: |
           node -v && npm -v
           npm install
